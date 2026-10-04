@@ -1,0 +1,12 @@
+**/node_modules/
+**/.env
+**/.env.*
+!**/.env.example
+**/.dev.vars*
+**/.output/
+**/.wrangler/
+**/data/
+**/dist/
+**/coverage/
+**/.DS_Store
+*.log

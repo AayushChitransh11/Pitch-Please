@@ -1,0 +1,20 @@
+import {render,act} from '@testing-library/react';
+import {it,expect,vi} from 'vitest';
+vi.mock('ogl',()=>({Renderer:class {constructor(){throw new Error('No WebGL');}},Program:class{},Mesh:class{},Triangle:class{},Vec3:class{}}));
+import {VoicePoweredOrb} from '@/components/ui/voice-powered-orb';
+it('uses the shared stream and releases its analyser without stopping the recording',()=>{
+  const stop=vi.fn(),close=vi.fn().mockResolvedValue(undefined),disconnect=vi.fn(),onVoice=vi.fn();
+  let update:FrameRequestCallback | undefined;
+  const analyse={fftSize:512,getByteTimeDomainData:(values:Uint8Array)=>values.fill(180),disconnect};
+  const source={connect:vi.fn(),disconnect};
+  const stream={getTracks:()=>[{stop}]} as unknown as MediaStream;
+  const sourceFor=vi.fn(()=>source);
+  vi.stubGlobal('requestAnimationFrame',vi.fn((cb:FrameRequestCallback)=>{update=cb;return 1;}));
+  vi.stubGlobal('cancelAnimationFrame',vi.fn());
+  vi.stubGlobal('AudioContext',class {state='running';createMediaStreamSource=sourceFor;createAnalyser=()=>analyse;resume=()=>Promise.resolve();close=close;});
+  const view=render(<VoicePoweredOrb mediaStream={stream} enableVoiceControl onVoiceDetected={onVoice}/>);
+  expect(sourceFor).toHaveBeenCalledWith(stream);
+  act(()=>update?.(16));expect(onVoice).toHaveBeenCalledWith(true);
+  view.unmount();expect(close).toHaveBeenCalledOnce();expect(stop).not.toHaveBeenCalled();expect(disconnect).toHaveBeenCalledTimes(2);
+  vi.unstubAllGlobals();
+});

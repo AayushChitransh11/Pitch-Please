@@ -1,10 +1,11 @@
+import { FeedbackDetails } from '@/components/FeedbackDetails';
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { ArrowLeft, CheckCircle2, CircleDashed, CircleHelp, Mic, XCircle } from "lucide-react";
 
 import { SiteFooter, SiteHeader } from "@/components/site/SiteHeader";
 import {
-  getSampleResults,
+  getResults,
   type CoverageStatus,
   type PracticeResults,
 } from "@/lib/api";
@@ -47,9 +48,12 @@ const statusMeta: Record<
 function ResultsPage() {
   const [results, setResults] = useState<PracticeResults | null>(null);
 
+  const [error, setError] = useState<string | null>(null);
   useEffect(() => {
-    // Sample results until the practice endpoint is connected.
-    getSampleResults().then(setResults);
+    let active = true;
+    getResults().then(r => { if (active) setResults(r); })
+      .catch(e => { if (active) setError(e.message); });
+    return () => { active = false; };
   }, []);
 
   const topImprovement = results?.improvements.find((i) => i.priority === 1);
@@ -58,10 +62,10 @@ function ResultsPage() {
     <div className="min-h-screen">
       <SiteHeader />
       <main className="mx-auto max-w-4xl px-5 py-12">
-        <p className="text-sm font-medium text-muted-foreground">Sample rehearsal analysis</p>
+        <p className="text-sm font-medium text-muted-foreground">Your rehearsal analysis</p>
         <h1 className="mt-1 text-4xl font-semibold">What happened, and what to change next</h1>
 
-        {!results ? (
+        {error ? <p role="alert" className="mt-10 text-destructive">{error} <Link to="/prepare">Return to preparation</Link></p> : !results ? (
           <p className="mt-10 text-muted-foreground">Loading results…</p>
         ) : (
           <div className="mt-10 space-y-6">
@@ -94,12 +98,13 @@ function ResultsPage() {
                 </div>
               </div>
               <p className="mt-4 text-sm text-muted-foreground">
-                {fmt(results.measurements.targetSeconds - results.measurements.durationSeconds)}{" "}
-                remaining of your target. Pace is an average across the whole recording, including
+                {fmt(Math.abs(results.measurements.targetSeconds - results.measurements.durationSeconds))}{" "}
+                {results.measurements.durationSeconds > results.measurements.targetSeconds ? "over your target." : "remaining of your target."} Pace is an average across the whole recording, including
                 pauses.
               </p>
             </section>
 
+            <FeedbackDetails results={results} />
             {/* Content checklist */}
             <section className="rounded-3xl border border-border bg-card p-6 shadow-soft sm:p-8">
               <h2 className="text-xl font-semibold">Content checklist</h2>
@@ -167,6 +172,8 @@ function ResultsPage() {
               </section>
             )}
 
+
+            {!!results.grammar?.length && <section className="rounded-3xl border p-6"><h2 className="text-xl font-semibold">Language suggestions</h2>{results.grammar.map((g, i) => <p key={i} className="mt-3">“{g.original}” → “{g.suggested}” — {g.explanation}</p>)}</section>}
             {/* Transcript */}
             <section className="rounded-3xl border border-border bg-card p-6 shadow-soft sm:p-8">
               <h2 className="text-xl font-semibold">Transcript</h2>

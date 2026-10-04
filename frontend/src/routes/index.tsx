@@ -122,10 +122,7 @@ function Index() {
               <CtaLink to="/prepare" variant="gold">
                 Prepare my presentation <ArrowRight className="h-4 w-4" aria-hidden />
               </CtaLink>
-              <CtaLink to="/practice" variant="glass">
-                <Mic className="h-4 w-4" aria-hidden />
-                Practice now
-              </CtaLink>
+
             </div>
             <p className="rise mt-6 text-sm text-cream/75 [animation-delay:1200ms]">
               Start with an idea, an outline, or a presentation you already have.
@@ -205,7 +202,7 @@ function Index() {
                   Record a practice run and review your timing, speaking pace, content coverage and
                   suggestions for clearer explanations.
                 </p>
-                <CtaLink to="/practice" className="mt-8 self-start">
+                <CtaLink to="/prepare" className="mt-8 self-start">
                   Start practicing <ArrowRight className="h-4 w-4" aria-hidden />
                 </CtaLink>
               </article>

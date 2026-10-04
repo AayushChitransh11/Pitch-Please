@@ -1,0 +1,19 @@
+{
+  "name": "pitch-please-backend-starter",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node --env-file=.env src/server.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.0.0",
+    "express": "^5.0.0",
+    "pdfjs-dist": "^6.4.299",
+    "zod": "^3.25.0"
+  }
+}
