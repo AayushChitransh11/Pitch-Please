@@ -4,7 +4,7 @@
 
 Presentation Coach is a hackathon project that helps students turn their ideas into a clear presentation, rehearse aloud, and understand what to improve before presenting to an audience.
 
-**[Open the application](https://pixel-perfect-render-24504.lovable.app)**
+**[Open the application](https://pitchplease-girlhacks.lovable.app/)**
 
 ## The problem
 
@@ -33,32 +33,6 @@ Our goal is to help users answer: **“What should I improve before my next pres
 ## Current prototype
 
 The published application is a frontend prototype. The following status reflects the visible pages reviewed on October 3, 2026; it does not establish that backend integrations are complete.
-
-| Area | Current interface | Status |
-| --- | --- | --- |
-| Landing page | Product overview, preparation and practice entry points, and an example preview | Available |
-| Presentation brief | Topic, audience, purpose, target duration, required points, and draft or notes | Form available |
-| PDF attachment | Attachment control displaying a 10 MB limit | Interface available; parsing is not verified |
-| Coach chat | Dedicated coaching panel | Marked coming soon |
-| Practice | Camera and microphone start control | Interface available; media behavior is not verified here |
-| Rehearsal analysis | Notice about sending a rehearsal for analysis | Marked coming soon |
-| Sample report | Link from the practice page | Demonstration entry point; not evidence of live analysis |
-
-Example previews and sample reports should be treated as demonstration data until the live analysis integration is complete.
-
-## Presentation context
-
-The presentation brief provides the basis for meaningful feedback.
-
-| Input | Purpose |
-| --- | --- |
-| Topic | Establish what the presentation is about |
-| Audience | Adapt explanations to the people listening |
-| Purpose | Identify what the speaker wants the audience to understand or do |
-| Target duration | Compare the rehearsal with the time limit |
-| Required points | Check whether the presentation addresses its intended content |
-| Draft, notes, or supporting PDF | Supply background material for preparation |
-| Rehearsal audio | Supply speech for transcription and delivery measurements |
 
 The current practice interface also includes a camera control. Camera access alone does not provide eye-contact, posture, or body-language analysis; those are outside the initial evaluation scope.
 
